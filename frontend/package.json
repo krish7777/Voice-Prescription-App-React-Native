@@ -7,7 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
-
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.5",
     "axios": "^0.19.2",

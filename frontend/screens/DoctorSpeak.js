@@ -52,16 +52,18 @@ export default class DoctorSpeak extends Component {
     Voice.start("en-US");
   }
 
-  componentDidMount() {
-    axios
-      .post("localhost:8000/api/df_event_query", {
-        event: "welcome"
-      })
-
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => console.log("error came"));
+  async componentDidMount() {
+    // ("https://hack-404.herokuapp.com/api/df_event_query", {
+    //   event: "welcome"
+    // }
+    // axios
+    //   .post("/api/df_event_query", { event: "welcome" })
+    //   .then(res => {
+    //     console.log(res.data);
+    //   })
+    //   .catch(err => console.log("error came"));
+    const res = await axios.post("/api/df_event_query", { event: "welcome" });
+    console.log(res.data);
   }
 
   handleDialogflow = () => {
@@ -72,7 +74,7 @@ export default class DoctorSpeak extends Component {
       .post("/api/df_text_query", { text: text })
       .then(res => console.log(res.data))
       .then(this.setState({ success: true }))
-      .catch(err => console.log(err));
+      .catch(err => console.log("error coming"));
     this.props.navigation.navigate("DoctorForm", {
       name: "krish",
       age: "22",
