@@ -1,5 +1,5 @@
 node_modules
 package-lock.json
-secret.json
+secret.js
 pdf
 config/dev.js
