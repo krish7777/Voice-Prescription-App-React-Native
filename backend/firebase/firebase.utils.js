@@ -19,8 +19,18 @@ const auth = firebase.auth()
 
 const firestore = firebase.firestore();
 
+const keyFileName = null;
+
+if(process.env.NODE_ENV === 'production'){
+  keyFileName = require('../secretProd')
+}
+else{
+  keyFileName = require('../secret.json')
+}
+
 const googleClould = new Storage({
-  keyFileName: require('../secret.json'),
+  
+  keyFileName: keyFileName,
   projectId: "sih-hack404"
 })
 
