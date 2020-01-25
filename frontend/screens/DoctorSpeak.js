@@ -7,7 +7,10 @@ import {
   View,
   TextInput,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableHighlight,
+  Alert,
+  Modal
 } from "react-native";
 import DismissKeyboard from "../shared/DismissKeyboard";
 import { Image as ReactImage } from "react-native";
@@ -20,30 +23,9 @@ export default class DoctorSpeak extends Component {
     this.state = {
       recognized: "",
       started: true,
-      results: [
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb",
-        "dsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaatvybqwertyuiokjhgfvdsdcvbnbvcxswertyu",
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb",
-        "hello",
-        "hbduahsb"
-      ],
-      success: false
+      results: ["Nikhil eats cancer"],
+      success: false,
+      modalVisible: false
     };
     Voice.onSpeechStart = this.onSpeechStart.bind(this);
     Voice.onSpeechRecognized = this.onSpeechRecognized.bind(this);
@@ -70,23 +52,27 @@ export default class DoctorSpeak extends Component {
     Voice.start("en-US");
   }
 
-  //   componentDidMount() {
-  //     axios
-  //       .post("https://sih-404.herokuapp.com/api/df_event_query", {
-  //         event: "welcome"
-  //       })
+  componentDidMount() {
+    axios
+      .post("https://hack-404.herokuapp.com/api/df_event_query", {
+        event: "welcome"
+      })
 
-  //       .then(res => console.log(res));
-  //   }
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  }
 
   handleDialogflow = () => {
     let text = [...this.state.results].join(" ");
     console.log("the send text is ", text);
 
-    // axios
-    //   .post("https://sih-404.herokuapp.com/api/df_text_query", { text: text })
-    //   .then(res => console.log(res.data))
-    //   .then(this.setState({ success: true }));
+    axios
+      .post("https://hack-404.herokuapp.com/api/df_text_query", { text: text })
+      .then(res => console.log(res.data))
+      .then(this.setState({ success: true }))
+      .catch(err => console.log(err));
     this.props.navigation.navigate("DoctorForm");
   };
 
@@ -106,15 +92,42 @@ export default class DoctorSpeak extends Component {
       console.error(e);
     }
   }
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
 
   render() {
-    Voice.isRecognizing().then(e => {
-      if (e) this.setState({ started: false });
-      else this.setState({ started: true });
-    });
+    Voice.isRecognizing()
+      .then(e => {
+        if (e) this.setState({ started: false });
+        else this.setState({ started: true });
+      })
+      .catch(err => console.log(err));
     return (
       <DismissKeyboard>
         <View style={styles.container}>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+            }}
+          >
+            <View style={{ marginTop: 22 }}>
+              <View>
+                <Text>Hello World!</Text>
+
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setModalVisible(!this.state.modalVisible);
+                  }}
+                >
+                  <Text>Hide Modal</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
           <View style={styles.speechcontainer}>
             <View style={styles.scrollcontainer}>
               <ScrollView>
@@ -153,6 +166,13 @@ export default class DoctorSpeak extends Component {
                 style={styles.stop}
               />
             </TouchableOpacity>
+            <TouchableHighlight
+              onPress={() => {
+                this.setModalVisible(true);
+              }}
+            >
+              <Text>Show Modal</Text>
+            </TouchableHighlight>
           </View>
         </View>
       </DismissKeyboard>

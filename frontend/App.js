@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import MainStack from "./routes/MainStack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import DoctorForm from "./screens/DoctorForm";
+
 export default function App() {
   return (
     <SafeAreaProvider>
