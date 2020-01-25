@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from "react-native";
+import DismissKeyboard from "../shared/DismissKeyboard";
 import { Image as ReactImage } from "react-native";
 
 import Voice from "react-native-voice";
@@ -82,10 +83,10 @@ export default class DoctorSpeak extends Component {
     let text = [...this.state.results].join(" ");
     console.log("the send text is ", text);
 
-    axios
-      .post("https://sih-404.herokuapp.com/api/df_text_query", { text: text })
-      .then(res => console.log(res.data))
-      .then(this.setState({ success: true }));
+    // axios
+    //   .post("https://sih-404.herokuapp.com/api/df_text_query", { text: text })
+    //   .then(res => console.log(res.data))
+    //   .then(this.setState({ success: true }));
     this.props.navigation.navigate("DoctorForm");
   };
 
@@ -112,47 +113,49 @@ export default class DoctorSpeak extends Component {
       else this.setState({ started: true });
     });
     return (
-      <View style={styles.container}>
-        <View style={styles.speechcontainer}>
-          <View style={styles.scrollcontainer}>
-            <ScrollView>
-              {this.state.results.map((result, index) => (
-                <TextInput
-                  style={styles.text}
-                  multiline
-                  key={index}
-                  value={this.state.results[index]}
-                  onChangeText={text => {
-                    let newResults = this.state.results;
-                    newResults[index] = text;
-                    this.setState({ results: newResults });
-                  }}
-                />
-              ))}
-            </ScrollView>
+      <DismissKeyboard>
+        <View style={styles.container}>
+          <View style={styles.speechcontainer}>
+            <View style={styles.scrollcontainer}>
+              <ScrollView>
+                {this.state.results.map((result, index) => (
+                  <TextInput
+                    style={styles.text}
+                    multiline
+                    key={index}
+                    value={this.state.results[index]}
+                    onChangeText={text => {
+                      let newResults = this.state.results;
+                      newResults[index] = text;
+                      this.setState({ results: newResults });
+                    }}
+                  />
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+          <View style={styles.buttonscontainer}>
+            <TouchableOpacity onPress={this._startRecognition.bind(this)}>
+              <ReactImage
+                source={require("../assets/icons8-microphone-64.png")}
+                style={styles.microphone}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._endRecognition.bind(this)}>
+              <ReactImage
+                source={require("../assets/icons8-stop-64.png")}
+                style={styles.stop}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.handleDialogflow}>
+              <ReactImage
+                source={require("../assets/icons8-next-page-64.png")}
+                style={styles.stop}
+              />
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.buttonscontainer}>
-          <TouchableOpacity onPress={this._startRecognition.bind(this)}>
-            <ReactImage
-              source={require("../assets/icons8-microphone-64.png")}
-              style={styles.microphone}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this._endRecognition.bind(this)}>
-            <ReactImage
-              source={require("../assets/icons8-stop-64.png")}
-              style={styles.stop}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.handleDialogflow}>
-            <ReactImage
-              source={require("../assets/icons8-next-page-64.png")}
-              style={styles.stop}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      </DismissKeyboard>
     );
   }
 }

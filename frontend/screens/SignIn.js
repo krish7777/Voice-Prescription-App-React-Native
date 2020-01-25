@@ -6,14 +6,30 @@ import {
   Button,
   Image,
   SafeAreaView,
-  Text
+  Text,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native";
+
+import DismissKeyboard from "../shared/DismissKeyboard";
+
+// const DismissKeyboard = ({ children }) => (
+//   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+//     {children}
+//   </TouchableWithoutFeedback>
+// );
 
 class SignIn extends React.Component {
   state = {
     password: "",
     email: ""
   };
+  // DismissKeyboard = ({ children }) => (
+  //   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+  //     {children}
+  //   </TouchableWithoutFeedback>
+  // );
+
   onChangeText = (key, val) => {
     this.setState({ [key]: val });
   };
@@ -31,7 +47,7 @@ class SignIn extends React.Component {
     //       password: password
     //     })
     //   }).then(res => console.log(JSON.stringify(res)));
-    //   //this.props.navigation.navigate("DoctorSpeak");
+    this.props.navigation.navigate("DoctorSpeak");
 
     //   //console.log("user successfully signed up!: ");
     // } catch (err) {
@@ -40,41 +56,43 @@ class SignIn extends React.Component {
   };
   render() {
     return (
-      <SafeAreaView style={styles.screen}>
-        <View style={styles.container}>
-          <Image
-            source={require("../assets/logo.png")}
-            style={{ width: 100, height: 100 }}
-          />
+      <DismissKeyboard>
+        <SafeAreaView style={styles.screen}>
+          <View style={styles.container}>
+            <Image
+              source={require("../assets/logo.png")}
+              style={{ width: 100, height: 100 }}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            autoCapitalize="none"
-            placeholderTextColor="white"
-            onChangeText={val => this.onChangeText("email", val)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry={true}
-            autoCapitalize="none"
-            placeholderTextColor="white"
-            onChangeText={val => this.onChangeText("password", val)}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              autoCapitalize="none"
+              placeholderTextColor="white"
+              onChangeText={val => this.onChangeText("email", val)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              secureTextEntry={true}
+              autoCapitalize="none"
+              placeholderTextColor="white"
+              onChangeText={val => this.onChangeText("password", val)}
+            />
 
-          <Text
-            style={{ color: "#6B52AE", fontSize: 16, paddingTop: 10 }}
-            onPress={() => this.props.navigation.navigate("SignUp")}
-          >
-            Create Account
-          </Text>
-        </View>
+            <Text
+              style={{ color: "#6B52AE", fontSize: 16, paddingTop: 10 }}
+              onPress={() => this.props.navigation.navigate("SignUp")}
+            >
+              Create Account
+            </Text>
+          </View>
 
-        <View style={styles.button}>
-          <Button title="Sign In" onPress={this.signIn} color="#6B52AE" />
-        </View>
-      </SafeAreaView>
+          <View style={styles.button}>
+            <Button title="Sign In" onPress={this.signIn} color="#6B52AE" />
+          </View>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }

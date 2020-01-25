@@ -9,11 +9,11 @@ import {
 } from "react-native";
 
 class RegistrationHome extends React.Component {
-  // static navigationOptions = {
-  //   title: "The App"
-  // };
+  static navigationOptions = {
+    title: "The App"
+  };
   render() {
-    //const { navigate } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.screen}>
         <View style={{ height: "20%" }}></View>
