@@ -32,9 +32,9 @@ export default class DoctorSpeak extends Component {
     Voice.onSpeechResults = this.onSpeechResults.bind(this);
   }
 
-  componentWillUnmount() {
-    Voice.destroy().then(Voice.removeAllListeners);
-  }
+  // componentWillUnmount() {
+  //   Voice.destroy().then(Voice.removeAllListeners);
+  // }
   onSpeechStart(e) {
     this.setState({
       started: false
@@ -54,14 +54,14 @@ export default class DoctorSpeak extends Component {
 
   componentDidMount() {
     axios
-      .post("https://hack-404.herokuapp.com/api/df_event_query", {
+      .post("localhost:8000/api/df_event_query", {
         event: "welcome"
       })
 
       .then(res => {
-        console.log(res);
+        console.log(res.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log("error came"));
   }
 
   handleDialogflow = () => {
@@ -69,11 +69,30 @@ export default class DoctorSpeak extends Component {
     console.log("the send text is ", text);
 
     axios
-      .post("https://hack-404.herokuapp.com/api/df_text_query", { text: text })
+      .post("/api/df_text_query", { text: text })
       .then(res => console.log(res.data))
       .then(this.setState({ success: true }))
       .catch(err => console.log(err));
-    this.props.navigation.navigate("DoctorForm");
+    this.props.navigation.navigate("DoctorForm", {
+      name: "krish",
+      age: "22",
+      sex: "male",
+      symptoms: ["COUGH", "MILD FEVER"],
+      diagnosis: ["CANCER", "HEART ATTACK"],
+      prescription: [
+        {
+          name: "Paracetamol",
+          strength: "500 mg",
+          dosage: "Once a day before food"
+        },
+        {
+          name: "Cefixime",
+          strength: "500 mg",
+          dosage: "Twice a day before food"
+        }
+      ],
+      advice: ["EAT GRAPES", "DRINK WATER"]
+    });
   };
 
   async _startRecognition(e) {
@@ -97,12 +116,12 @@ export default class DoctorSpeak extends Component {
   }
 
   render() {
-    Voice.isRecognizing()
-      .then(e => {
-        if (e) this.setState({ started: false });
-        else this.setState({ started: true });
-      })
-      .catch(err => console.log(err));
+    // Voice.isRecognizing()
+    //   .then(e => {
+    //     if (e) this.setState({ started: false });
+    //     else this.setState({ started: true });
+    //   })
+    //   .catch(err => console.log(err));
     return (
       <DismissKeyboard>
         <View style={styles.container}>

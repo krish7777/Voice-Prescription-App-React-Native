@@ -8,21 +8,59 @@ class DoctorForm extends React.Component {
     super(props);
     this.state = {
       tableHead: ["NAME", "STRENGTH", "DOSAGE"],
-      name: "krish",
-      age: "22",
-      sex: "male",
-      symptoms: ["COUGH", "MILD FEVER"],
-      diagnosis: ["CANCER", "HEART ATTACK"],
-      prescription: [],
-      advice: ["EAT GRAPES", "DRINK WATER"]
+      name: props.navigation.getParam("name"),
+      age: props.navigation.getParam("age"),
+      sex: props.navigation.getParam("sex"),
+      symptoms: props.navigation.getParam("symptoms"),
+      diagnosis: props.navigation.getParam("diagnosis"),
+      prescription: props.navigation.getParam("prescription"),
+      advice: props.navigation.getParam("advice")
     };
   }
   onChangeText = (key, val) => {
     this.setState({ [key]: val });
   };
 
+  sendFinalData = () => {
+    console.log(this.state);
+  };
+
   render() {
     const { navigate } = this.props.navigation;
+    var tablerows = [];
+    for (let i = 0; i < this.state.prescription.length; i++) {
+      tablerows.push(
+        <View style={{ flexDirection: "row" }}>
+          <TextInput
+            style={styles.tabledata}
+            value={this.state.prescription[i].name}
+            onChangeText={text => {
+              let newPrescription = this.state.prescription;
+              newPrescription[i].name = text;
+              this.setState({ prescription: newPrescription });
+            }}
+          />
+          <TextInput
+            style={styles.tabledata}
+            value={this.state.prescription[i].strength}
+            onChangeText={text => {
+              let newPrescription = this.state.prescription;
+              newPrescription[i].strength = text;
+              this.setState({ prescription: newPrescription });
+            }}
+          />
+          <TextInput
+            style={styles.tabledata}
+            value={this.state.prescription[i].dosage}
+            onChangeText={text => {
+              let newPrescription = this.state.prescription;
+              newPrescription[i].dosage = text;
+              this.setState({ prescription: newPrescription });
+            }}
+          />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -57,8 +95,14 @@ class DoctorForm extends React.Component {
           <View style={styles.column}>
             {this.state.symptoms.map((result, index) => (
               <TextInput
+                key={"symptoms" + index}
                 style={styles.label}
                 value={this.state.symptoms[index]}
+                onChangeText={text => {
+                  let newSymptoms = this.state.symptoms;
+                  newSymptoms[index] = text;
+                  this.setState({ symptoms: newSymptoms });
+                }}
               />
             ))}
           </View>
@@ -68,8 +112,14 @@ class DoctorForm extends React.Component {
           <View style={styles.column}>
             {this.state.diagnosis.map((result, index) => (
               <TextInput
+                key={"diagnosis" + index}
                 style={styles.label}
                 value={this.state.diagnosis[index]}
+                onChangeText={text => {
+                  let newDiagnosis = this.state.diagnosis;
+                  newDiagnosis[index] = text;
+                  this.setState({ diagnosis: newDiagnosis });
+                }}
               />
             ))}
           </View>
@@ -83,21 +133,8 @@ class DoctorForm extends React.Component {
               textStyle={{ ...styles.text, color: "black" }}
             />
           </Table>
-          <View style={{ flexDirection: "row" }}>
-            <TextInput style={styles.tabledata} />
-            <TextInput style={styles.tabledata} />
-            <TextInput style={styles.tabledata} />
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <TextInput style={styles.tabledata} />
-            <TextInput style={styles.tabledata} />
-            <TextInput style={styles.tabledata} />
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <TextInput style={styles.tabledata} />
-            <TextInput style={styles.tabledata} />
-            <TextInput style={styles.tabledata} />
-          </View>
+
+          {tablerows}
 
           <View>
             <Text style={styles.label}>ADVICE:</Text>
@@ -105,11 +142,18 @@ class DoctorForm extends React.Component {
           <View style={styles.column}>
             {this.state.advice.map((result, index) => (
               <TextInput
+                key={"advice" + index}
                 style={styles.label}
                 value={this.state.advice[index]}
+                onChangeText={text => {
+                  let newAdvice = this.state.advice;
+                  newAdvice[index] = text;
+                  this.setState({ advice: newAdvice });
+                }}
               />
             ))}
           </View>
+          <Button onPress={this.sendFinalData} title="Send Data" />
         </ScrollView>
       </View>
     );
