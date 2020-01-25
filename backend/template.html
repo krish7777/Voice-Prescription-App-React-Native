@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Student's profile</title>
+
+	<head>
+		<style type="text/css">
+			body {
+				width: 1300px;
+				margin: 0px;
+				padding: 0px;
+				font-size: 15px;
+				line-height: 24px;
+				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+				color: rgb(33, 33, 33);
+			}
+
+			.report-header {
+				background: rgb(55, 39, 114);
+				color: rgb(255, 255, 255);
+				padding: 30px;
+				align-content: center;
+
+				box-sizing: border-box;
+
+				position: relative;
+			}
+
+			.report-header .logo {
+				position: absolute;
+				top: 40px;
+				left: 15px;
+				width: 150px;
+			}
+
+			.report-footer {
+				background: rgb(55, 39, 114);
+				color: rgb(255, 255, 255);
+				padding: 15px;
+				box-sizing: border-box;
+				display: block;
+				position: relative;
+			}
+
+			.report-body {
+				width: 70%;
+				display: inline-block;
+				position: relative;
+				padding: 15px;
+				box-sizing: border-box;
+				vertical-align: top;
+			}
+
+			.report-photo {
+				width: 28%;
+				display: inline-block;
+				position: relative;
+				vertical-align: top;
+				box-sizing: border-box;
+				margin-top: 15px;
+			}
+
+			.report-photo img {
+				width: 100%;
+			}
+
+			.report-body .info p {
+
+				padding: 5px;
+				display: block;
+				position: relative;
+			}
+
+			table,
+			th,
+			td {
+				border: 1px solid black;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				padding: 15px;
+			}
+
+			th {
+				text-align: left;
+			}
+
+			table {
+
+				border-spacing: 5px;
+				width: 100%;
+			}
+
+			.Symptoms {
+				padding: 15px;
+			}
+
+			.heading {
+				display: inline-block;
+				width: 30%;
+
+			}
+
+			.details {
+				position: relative;
+				float: right;
+
+
+			}
+		</style>
+		<meta charset="utf-8">
+
+	</head>
+
+<body>
+	<div class="report-header">
+		<div class="heading">
+			<h1>{{title}}</h1>
+			<p>{{date}}</p>
+		</div>
+		<div class="details">
+			<h3>{{doctor}}</h3>
+			<h3>{{hospital}}</h3>
+			<h3>{{doctorNumber}}</h3>
+		</div>
+	</div>
+	<div class="report-body">
+		<div class="info">
+			<p>
+				<strong>Patient's Name:</strong> {{name}}
+			</p>
+			<p><strong>Gender:</strong> {{sex}}</p>
+			<p><strong>Age:</strong> {{age}}</p>
+		</div>
+
+	</div>
+	<hr>
+	<div class="Symptoms">
+		<h3>Symptoms:</h3>
+		<P>{{{symptoms}}}</P>
+		<hr>
+		<h3>Diagnosis:</h3>
+		{{{diagnosis}}}
+		<hr>
+		<h3>Prescription:</h3>
+		{{{prescription}}}
+		<hr>
+		<h3>Advice:</h3>
+		<p>{{{advice}}}</p>
+	</div>
+	<div class="report-footer">
+		A generic Company - All Rights reserved.
+	</div>
+</body>
+
+</html>
