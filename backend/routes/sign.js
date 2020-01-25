@@ -1,11 +1,22 @@
 const firebase = require('../firebase/firebase.utils')
 
 module.exports = app => {
+
+    currentUser = null
+
+    firebase.auth.onAuthStateChanged(function(user){
+        if(user){
+            currentUser = user
+        }
+        else{
+            currentUser = null           
+        }
+    })
+
     app.post('/signin', async (req, res) => {
         try{
-            const response = await firebase.auth.signInWithEmailAndPassword(req.body.email, req.body.password);
-            console.log(response)
-            res.json(response)
+            await firebase.auth.signInWithEmailAndPassword(req.body.email, req.body.password);
+            res.json(currentUser)
         }
         catch(err){
             res.json({error: err})
@@ -19,9 +30,8 @@ module.exports = app => {
                     req.body.email,
                     req.body.password
                 );
-                const response = await firebase.createProfileDoctor(user, { displayName: req.body.displayName, doctorId: req.body.doctorId });
-                console.log(response)
-                res.json(response)
+                await firebase.createProfileDoctor(user, { displayName: req.body.displayName, doctorId: req.body.doctorId, hospital: req.body.hospital });
+                res.json(currentUser)
             }
             catch(err){
                 console.log(err)
@@ -34,9 +44,9 @@ module.exports = app => {
                     req.body.email,
                     req.body.password
                 );
-                const response = await firebase.createProfileUser(user, { displayName: req.body.displayName }) 
+                await firebase.createProfileUser(user, { displayName: req.body.displayName }) 
                 
-                res.json(response)
+                res.json(currentUser)
             }
             catch(err){
                 res.json({error: err})
