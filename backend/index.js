@@ -5,6 +5,7 @@ const express = require('express'),
 app.use(bodyParser.json())
 
 require('./routes/dialogFlowRoutes')(app)
+require('./routes/sign')(app)
 
 
 const PORT = process.env.NODE_ENV || 8000

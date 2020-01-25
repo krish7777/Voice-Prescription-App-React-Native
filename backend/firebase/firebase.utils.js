@@ -27,6 +27,7 @@ const googleClould = new Storage({
 const pdfFilesBucket = googleClould.bucket('sih-hack404.appspot.com')
 
 const createProfileUser = async (User, additionalData) => {
+  
   if(!User) return;
   const userRef = firestore.doc(`users/${User.uid}`);
   const snapShot = await userRef.get();
@@ -34,14 +35,15 @@ const createProfileUser = async (User, additionalData) => {
   if(!snapShot.exists){
     const { email } = User;
     const createdAt = new Date();
-
+    const displayName = additionalData.displayName
     try{
       await userRef.set({
-        displayName: additionalData.displayName,
+        displayName,
         email,
         createdAt
       })
-    }catch(err){
+    }
+    catch(err){
       console.log('Error while adding user: ' + err.message);
     }
   }
@@ -56,16 +58,20 @@ const createProfileDoctor = async (User, additionalData) => {
     if(!snapShot.exists){
       const { email } = User;
       const createdAt = new Date();
-  
+      const displayName = additionalData.displayName
+      const doctorId = additionalData.doctorId
+      const hospital = additionalData.hospital
       try{
         await userRef.set({
-          displayName: additionalData.displayName,
+          displayName,
           email,
           createdAt,
-          doctorId: additionalData.doctorId
+          doctorId,
+          hospital
         })
   
-      }catch(err){
+      }
+      catch(err){
         console.log('Error while adding user: ' + err.message);
       }
     }
