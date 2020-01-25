@@ -19,13 +19,13 @@ const auth = firebase.auth()
 
 const firestore = firebase.firestore();
 
-const keyFileName = null;
+let keyFileName = null;
 
 if(process.env.NODE_ENV === 'production'){
-  keyFileName = require('../secretProd')
+  keyFileName = require('../secretProd.js')
 }
 else{
-  keyFileName = require('../secret.json')
+  keyFileName = require('../secret.js')
 }
 
 const googleClould = new Storage({
