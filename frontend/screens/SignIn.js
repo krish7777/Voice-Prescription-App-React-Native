@@ -13,22 +13,11 @@ import {
 
 import DismissKeyboard from "../shared/DismissKeyboard";
 
-// const DismissKeyboard = ({ children }) => (
-//   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-//     {children}
-//   </TouchableWithoutFeedback>
-// );
-
 class SignIn extends React.Component {
   state = {
     password: "",
     email: ""
   };
-  // DismissKeyboard = ({ children }) => (
-  //   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-  //     {children}
-  //   </TouchableWithoutFeedback>
-  // );
 
   onChangeText = (key, val) => {
     this.setState({ [key]: val });
