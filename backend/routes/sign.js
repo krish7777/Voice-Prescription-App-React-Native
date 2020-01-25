@@ -4,19 +4,31 @@ module.exports = app => {
 
     currentUser = null
 
-    firebase.auth.onAuthStateChanged(function(user){
+    async function getUser(user){
+        console.log(user.uid)
         if(user){
-            currentUser = user
+            const userRef = firebase.firestore.doc(`users/${user.uid}`);
+            const snapShot = await userRef.get();
+
+            if(!snapShot.exists){
+                return snapShot.data()
+            }
         }
         else{
-            currentUser = null           
+            return null          
         }
-    })
+    }
 
     app.post('/signin', async (req, res) => {
         try{
-            await firebase.auth.signInWithEmailAndPassword(req.body.email, req.body.password);
-            res.json(currentUser)
+            firebase.auth.signInWithEmailAndPassword(req.body.email, req.body.password)
+            .then(response => {
+                const userRef = firebase.firestore.doc(`users/${response.user.uid}`)
+                userRef.get().then(doc => {
+                    res.json(doc.data())
+                })
+                .catch(err => res.json({error: err}))
+            })
         }
         catch(err){
             res.json({error: err})
@@ -30,8 +42,14 @@ module.exports = app => {
                     req.body.email,
                     req.body.password
                 );
-                await firebase.createProfileDoctor(user, { displayName: req.body.displayName, doctorId: req.body.doctorId, hospital: req.body.hospital });
-                res.json(currentUser)
+                firebase.createProfileDoctor(user, { displayName: req.body.displayName, doctorId: req.body.doctorId, hospital: req.body.hospital })
+                .then(response => {
+                    const userRef = firebase.firestore.doc(`users/${response.user.uid}`)
+                    userRef.get().then(doc => {
+                        res.json(doc.data())
+                    })
+                    .catch(err => res.json({error: err}))
+                })
             }
             catch(err){
                 console.log(err)
@@ -44,9 +62,15 @@ module.exports = app => {
                     req.body.email,
                     req.body.password
                 );
-                await firebase.createProfileUser(user, { displayName: req.body.displayName }) 
-                
-                res.json(currentUser)
+                firebase.createProfileUser(user, { displayName: req.body.displayName })        
+                .then(response => {
+                    const userRef = firebase.firestore.doc(`users/${response.user.uid}`)
+                    userRef.get().then(doc => {
+                        res.json(doc.data())
+                    })
+                    .catch(err => res.json({error: err}))
+                })
+
             }
             catch(err){
                 res.json({error: err})
