@@ -4,8 +4,6 @@ const createPDF = require("../src/pdfGenerator");
 
 let admin = require("firebase-admin");
 
-const createPDF = require("../src/pdfGenerator");
-
 const firebase = require("../firebase/firebase.utils");
 
 module.exports = app => {
