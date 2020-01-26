@@ -56,12 +56,12 @@ export default class DoctorSpeak extends Component {
     // ("https://hack-404.herokuapp.com/api/df_event_query", {
     //   event: "welcome"
     // }
-    // axios
-    //   .post("/api/df_event_query", { event: "welcome" })
-    //   .then(res => {
-    //     console.log(res.data);
-    //   })
-    //   .catch(err => console.log("error came"));
+    axios
+      .post("http://10.21.131.143:8000/api/df_event_query", { event: "welcome" })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log("error came"));
     const res = await axios.post("/api/df_event_query", { event: "welcome" });
     console.log(res.data);
   }
