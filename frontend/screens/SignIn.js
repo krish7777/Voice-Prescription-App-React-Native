@@ -35,7 +35,7 @@ class SignIn extends React.Component {
           this.props.navigation.navigate('DoctorSpeak')
         }
         else{
-          this.props.navigation.navigate("UserScreen");
+          this.props.navigation.navigate("UserScreen", {currentUser: res.data});
         }
       })
       .catch(err => console.log(err))

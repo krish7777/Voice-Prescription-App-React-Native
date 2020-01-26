@@ -9,39 +9,38 @@ import {
   SafeAreaView
 } from "react-native";
 import DismissKeyboard from "../shared/DismissKeyboard";
+import Axios from "axios";
 
 class SignUp extends React.Component {
   state = {
     displayName: "",
     password: "",
     email: "",
-    doctorId: ""
+    doctorId: "",
+    hospital: ""
   };
   onChangeText = (key, val) => {
     this.setState({ [key]: val });
   };
   signUp = async () => {
-    const { displayName, password, email, doctorId } = this.state;
-    // try {
-    //   fetch("https://sih-404.herokuapp.com/signup", {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //       displayName: displayName,
+    const { displayName, password, email, doctorId, hospital } = this.state;
 
-    //       email: email,
-    //       password: password,
-    //       doctorId: doctorId
-    //     })
-    //   }).then(res => console.log(res));
-    this.props.navigation.navigate("DoctorSpeak");
-    //   console.log("user successfully signed up!: ");
-    // } catch (err) {
-    //   console.log("error signing up: ", err);
-    // }
+    Axios.post('http://10.0.2.2:8000/signup', {
+      displayName,
+      password,
+      email,
+      doctorId,
+      hospital
+    })
+    .then(res => {
+        if(!!res.data.doctorId){
+          this.props.navigation.navigate('DoctorSpeak')
+        }
+        else{
+          this.props.navigation.navigate("UserScreen", {currentUser: res.data});
+        }
+      })
+      .catch(err => console.log(err))
   };
   render() {
     return (
@@ -82,8 +81,15 @@ class SignUp extends React.Component {
               placeholderTextColor="white"
               onChangeText={val => this.onChangeText("doctorId", val)}
             />
+            <TextInput
+              style={styles.input}
+              placeholder="Hospital"
+              autoCapitalize="none"
+              placeholderTextColor="white"
+              onChangeText={val => this.onChangeText("hospital", val)}
+            />
             <Text style={{ color: "white" }}>
-              Normal Users Do not Enter Doctor ID
+              Normal Users Do not Enter Doctor ID and Hospital
             </Text>
 
             <Text
