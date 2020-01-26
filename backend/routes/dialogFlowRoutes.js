@@ -42,6 +42,8 @@ module.exports = app => {
   app.post("/api/finalData", async (req, res) => {
     const now = new Date();
 
+    console.log(req.body);
+
     let currentdate =
       "" + now.getDate() + "-" + (now.getMonth() + 1) + "-" + now.getFullYear();
     const data = req.body.data;

@@ -23,7 +23,9 @@ export default class DoctorSpeak extends Component {
     this.state = {
       recognized: "",
       started: true,
-      results: ["Nikhil eats cancer"],
+      results: [
+        "Amit is the patient and his age is 20 years and gender is male, he is coughing and fever, he is diagnosed with dengue and he should take azithromycin once a day before breakfast and cefixime and should be taken twice a day after breakfast"
+      ],
       success: false,
       modalVisible: false
     };
@@ -56,6 +58,7 @@ export default class DoctorSpeak extends Component {
     // ("https://hack-404.herokuapp.com/api/df_event_query", {
     //   event: "welcome"
     // }
+    console.log(this.props.navigation.getParam("currentUser"));
     console.log("sameed is a loser");
     axios
       .post("http://10.0.2.2:8000/api/df_event_query", {
@@ -77,12 +80,56 @@ export default class DoctorSpeak extends Component {
         if (res.data.fulfillmentText === "") {
           console.log("all values got");
           console.log(res.data);
+
+          const data = res.data.parameters.fields;
+
+          let prescription = [];
+          if (data.medicines.listValue.values.length > 0) {
+            data.medicines.listValue.values.forEach(element => {
+              prescription.push({
+                name: element.stringValue,
+                Strength: "500 mg",
+                Dosage: null
+              });
+            });
+          }
+
+          if (data.frequency.listValue.values.length > 0) {
+            console;
+            data.frequency.listValue.values.forEach((ele, ind) => {
+              prescription[ind].dosage = ele.stringValue + " a day";
+            });
+          }
+          if (data.duration_phrases.listValue.values.length > 0) {
+            data.duration_phrases.listValue.values.forEach((ele, ind) => {
+              prescription[ind].dosage += " " + ele.stringValue;
+            });
+          }
+
+          this.props.navigation.navigate("DoctorForm", {
+            doctor: this.props.navigation.getParam("currentUser").displayName,
+
+            hospital: this.props.navigation.getParam("currentUser").doctorId,
+
+            doctorNo: "4567898765",
+            name: data.name.stringValue.toUpperCase(),
+            age: data.age.structValue.fields.amount.numberValue,
+            sex: data.gender.stringValue,
+            symptoms: data.symptoms.listValue.values.map(
+              ele => ele.stringValue
+            ),
+            diagnosis: data.diseases.listValue.values.map(
+              ele => ele.stringValue
+            ),
+            prescription: prescription,
+            advice: data.advice.listValue.values.map(ele => ele.stringValue)
+          });
         } else {
           console.log(res.data.fulfillmentText);
         }
       })
       .then(this.setState({ success: true }))
-      .catch(err => console.log("error coming"));
+      .catch(err => console.log(err));
     // this.props.navigation.navigate("DoctorForm", {
     //   name: "krish",
     //   age: "22",
@@ -195,7 +242,6 @@ export default class DoctorSpeak extends Component {
                 style={styles.stop}
               />
             </TouchableOpacity>
-            
           </View>
         </View>
       </DismissKeyboard>
