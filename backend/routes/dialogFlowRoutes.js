@@ -2,6 +2,8 @@ const voicePrescription = require('../src/voicePrescription')
 
 const createPDF = require('../src/pdfGenerator')
 
+const firebase = require('../firebase/firebase.utils')
+
 module.exports = app => {
 
     app.get('/', (req, res) => {
@@ -26,6 +28,23 @@ module.exports = app => {
         const data = req.body.data
         
         await createPDF.createPDF(data)
+
+        const presRef = firebase.firestore.collection('prescriptions')
+
+        const presId = await presRef.add(data).then(response => (response.id))
+
+        const userRef = firebase.firestore.collection('users')
+        let queryRef = userRef.where('email', '==', data.email).get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+                let arr = []
+                arr.push(doc.data().prescriptions)
+                const user = firebase.firestore.doc(`user/${doc.id}`)
+                arr.push(presId)
+                user.set({prescriptions: arr})
+            })
+        })
+
         res.send("Successfull")
     })
 }
