@@ -2,9 +2,6 @@ const express = require("express"),
   app = express(),
   bodyParser = require("body-parser");
 
-var cors = require("cors");
-app.use(cors({ origin: true, credentials: true }));
-
 app.use(bodyParser.json());
 
 require("./routes/dialogFlowRoutes")(app);
