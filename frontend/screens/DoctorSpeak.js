@@ -88,6 +88,7 @@ export default class DoctorSpeak extends Component {
             data.power.listValue.values.forEach(element => {
               prescription.push({
                 name: element.stringValue,
+
                 Dosage: null
               });
             });
