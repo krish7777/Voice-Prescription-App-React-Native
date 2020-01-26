@@ -60,7 +60,6 @@ export default class DoctorSpeak extends Component {
     //   event: "welcome"
     // }
     console.log(this.props.navigation.getParam("currentUser"));
-    console.log("sameed is a loser");
     axios
       .post("http://10.0.2.2:8000/api/df_event_query", {
         event: "welcome"
