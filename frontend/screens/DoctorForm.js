@@ -30,7 +30,7 @@ class DoctorForm extends React.Component {
     var tablerows = [];
     for (let i = 0; i < this.state.prescription.length; i++) {
       tablerows.push(
-        <View style={{ flexDirection: "row" }}>
+        <View key={"table" + i} style={{ flexDirection: "row" }}>
           <TextInput
             style={styles.tabledata}
             value={this.state.prescription[i].name}
