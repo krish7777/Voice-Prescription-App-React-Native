@@ -85,11 +85,11 @@ export default class DoctorSpeak extends Component {
           const data = res.data.parameters.fields;
 
           let prescription = [];
-          if (data.medicines.listValue.values.length > 0) {
-            data.medicines.listValue.values.forEach(element => {
+          if (data.power.listValue.values.length > 0) {
+            data.power.listValue.values.forEach(element => {
               prescription.push({
                 name: element.stringValue,
-                Strength: "500 mg",
+
                 Dosage: null
               });
             });

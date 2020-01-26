@@ -8,7 +8,7 @@ class DoctorForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: ["NAME", "STRENGTH", "DOSAGE"],
+      tableHead: ["NAME", "DOSAGE"],
       name: props.navigation.getParam("name"),
       age: props.navigation.getParam("age"),
       sex: props.navigation.getParam("sex"),
@@ -44,7 +44,7 @@ class DoctorForm extends React.Component {
     };
 
     axios
-      .post("http://10.0.2.2:8000/api/finalData", { data: data })
+      .post("http://10.0.2.2:8000/api/finalData", { data: JSON.parse(data) })
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
@@ -64,15 +64,7 @@ class DoctorForm extends React.Component {
               this.setState({ prescription: newPrescription });
             }}
           />
-          <TextInput
-            style={styles.tabledata}
-            value={this.state.prescription[i].Strength}
-            onChangeText={text => {
-              let newPrescription = this.state.prescription;
-              newPrescription[i].Strength = text;
-              this.setState({ prescription: newPrescription });
-            }}
-          />
+
           <TextInput
             style={styles.tabledata}
             value={this.state.prescription[i].Dosage}
