@@ -24,10 +24,11 @@ export default class DoctorSpeak extends Component {
       recognized: "",
       started: true,
       results: [
-        "Amit is the patient and his age is 20 years and gender is male, he is coughing and fever, he is diagnosed with dengue and he should take azithromycin once a day before breakfast and cefixime and should be taken twice a day after breakfast"
+        "Amit is the patient, he is coughing and fever, he is diagnosed with dengue and he should take azithromycin once a day before breakfast and cefixime and should be taken twice a day after breakfast"
       ],
       success: false,
-      modalVisible: false
+      modalVisible: false,
+      fulfillmentText: ""
     };
     Voice.onSpeechStart = this.onSpeechStart.bind(this);
     Voice.onSpeechRecognized = this.onSpeechRecognized.bind(this);
@@ -105,6 +106,9 @@ export default class DoctorSpeak extends Component {
               prescription[ind].dosage += " " + ele.stringValue;
             });
           }
+          this.setState({
+            modalVisible: false
+          });
 
           this.props.navigation.navigate("DoctorForm", {
             doctor: this.props.navigation.getParam("currentUser").displayName,
@@ -125,7 +129,11 @@ export default class DoctorSpeak extends Component {
             advice: data.advice.listValue.values.map(ele => ele.stringValue)
           });
         } else {
-          console.log(res.data.fulfillmentText);
+          this.setState({
+            results: ["trial"],
+            modalVisible: true,
+            fulfillmentText: res.data.fulfillmentText
+          });
         }
       })
       .then(this.setState({ success: true }))
@@ -189,19 +197,58 @@ export default class DoctorSpeak extends Component {
             onRequestClose={() => {
               Alert.alert("Modal has been closed.");
             }}
+            style={{ backgroundColor: "black" }}
           >
-            <View style={{ marginTop: 22 }}>
-              <View>
-                <Text>Hello World!</Text>
+            <Text style={{ textAlign: "center" }}>
+              {this.state.fulfillmentText}
+            </Text>
 
-                <TouchableHighlight
+            {/* <TouchableHighlight
                   onPress={() => {
                     this.setModalVisible(!this.state.modalVisible);
                   }}
                 >
                   <Text>Hide Modal</Text>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
+            <View style={styles.speechcontainer}>
+              <View style={styles.scrollcontainer}>
+                <ScrollView>
+                  {this.state.results.map((result, index) => (
+                    <TextInput
+                      style={styles.text}
+                      multiline
+                      key={index}
+                      value={this.state.results[index]}
+                      onChangeText={text => {
+                        let newResults = this.state.results;
+                        newResults[index] = text;
+                        this.setState({ results: newResults });
+                      }}
+                      style={{ color: "black " }}
+                    />
+                  ))}
+                </ScrollView>
               </View>
+            </View>
+            <View style={styles.buttonscontainer}>
+              <TouchableOpacity onPress={this._startRecognition.bind(this)}>
+                <ReactImage
+                  source={require("../assets/icons8-microphone-64.png")}
+                  style={styles.microphone}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this._endRecognition.bind(this)}>
+                <ReactImage
+                  source={require("../assets/icons8-stop-64.png")}
+                  style={styles.stop}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.handleDialogflow}>
+                <ReactImage
+                  source={require("../assets/icons8-next-page-64.png")}
+                  style={styles.stop}
+                />
+              </TouchableOpacity>
             </View>
           </Modal>
           <View style={styles.speechcontainer}>

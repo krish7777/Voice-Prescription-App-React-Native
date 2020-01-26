@@ -15,7 +15,9 @@ class DoctorForm extends React.Component {
       symptoms: props.navigation.getParam("symptoms"),
       diagnosis: props.navigation.getParam("diagnosis"),
       prescription: props.navigation.getParam("prescription"),
-      advice: props.navigation.getParam("advice")
+      advice: props.navigation.getParam("advice"),
+      userEmail: "",
+      userPhoneNumber: ""
     };
   }
   onChangeText = (key, val) => {
@@ -36,7 +38,9 @@ class DoctorForm extends React.Component {
       symptoms: this.state.symptoms,
       diagnosis: this.state.diagnosis,
       prescription: this.state.prescription,
-      advice: this.state.advice
+      advice: this.state.advice,
+      userEmail: this.state.userEmail,
+      userPhoneNumber: this.state.userPhoneNumber
     };
 
     axios
@@ -84,6 +88,22 @@ class DoctorForm extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
+          <View style={styles.row}>
+            <Text style={styles.label}>PATIENT'S EMAIL:</Text>
+            <TextInput
+              style={styles.input}
+              value={this.state.userEmail}
+              onChangeText={val => this.onChangeText("userEmail", val)}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>PATIENT'S PHONE NUMBER:</Text>
+            <TextInput
+              style={styles.input}
+              value={this.state.userPhoneNumber}
+              onChangeText={val => this.onChangeText("userPhoneNumber", val)}
+            />
+          </View>
           <View style={styles.row}>
             <Text style={styles.label}>PATIENT'S NAME:</Text>
             <TextInput
