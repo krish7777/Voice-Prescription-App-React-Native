@@ -45,7 +45,7 @@ class DoctorForm extends React.Component {
 
     axios
       .post("http://10.0.2.2:8000/api/finalData", { data: data })
-      .then(res => console.log(res.data))
+      .then(res => console.log(res))
       .catch(err => console.log(err));
   };
 
@@ -66,19 +66,19 @@ class DoctorForm extends React.Component {
           />
           <TextInput
             style={styles.tabledata}
-            value={this.state.prescription[i].strength}
+            value={this.state.prescription[i].Strength}
             onChangeText={text => {
               let newPrescription = this.state.prescription;
-              newPrescription[i].strength = text;
+              newPrescription[i].Strength = text;
               this.setState({ prescription: newPrescription });
             }}
           />
           <TextInput
             style={styles.tabledata}
-            value={this.state.prescription[i].dosage}
+            value={this.state.prescription[i].Dosage}
             onChangeText={text => {
               let newPrescription = this.state.prescription;
-              newPrescription[i].dosage = text;
+              newPrescription[i].Dosage = text;
               this.setState({ prescription: newPrescription });
             }}
           />

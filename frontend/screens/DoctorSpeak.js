@@ -98,12 +98,12 @@ export default class DoctorSpeak extends Component {
           if (data.frequency.listValue.values.length > 0) {
             console;
             data.frequency.listValue.values.forEach((ele, ind) => {
-              prescription[ind].dosage = ele.stringValue + " a day";
+              prescription[ind].Dosage = ele.stringValue + " a day";
             });
           }
           if (data.duration_phrases.listValue.values.length > 0) {
             data.duration_phrases.listValue.values.forEach((ele, ind) => {
-              prescription[ind].dosage += " " + ele.stringValue;
+              prescription[ind].Dosage += " " + ele.stringValue;
             });
           }
           this.setState({
