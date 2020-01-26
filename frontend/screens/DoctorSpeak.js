@@ -24,7 +24,7 @@ export default class DoctorSpeak extends Component {
       recognized: "",
       started: true,
       results: [
-        "Nikhil 17 years male headache, muscle pain and joint pain. He is diagnosed with asthma. I prescribe him to take wikoryl 990 mg and paracetamol 25 mg thrice a day after breakfast and after dinner for 1 year. Avoid oily items."
+        "Amit is the patient and his age is 20 years and gender is male, he is coughing and fever, he is diagnosed with dengue and he should take azithromycin once a day before breakfast and cefixime and should be taken twice a day after breakfast"
       ],
       success: false,
       modalVisible: false
@@ -58,6 +58,7 @@ export default class DoctorSpeak extends Component {
     // ("https://hack-404.herokuapp.com/api/df_event_query", {
     //   event: "welcome"
     // }
+    console.log(this.props.navigation.getParam("currentUser"));
     console.log("sameed is a loser");
     axios
       .post("http://10.0.2.2:8000/api/df_event_query", {
@@ -87,8 +88,8 @@ export default class DoctorSpeak extends Component {
             data.medicines.listValue.values.forEach(element => {
               prescription.push({
                 name: element.stringValue,
-                strength: "500 mg",
-                dosage: null
+                Strength: "500 mg",
+                Dosage: null
               });
             });
           }
@@ -106,6 +107,11 @@ export default class DoctorSpeak extends Component {
           }
 
           this.props.navigation.navigate("DoctorForm", {
+            doctor: this.props.navigation.getParam("currentUser").displayName,
+
+            hospital: this.props.navigation.getParam("currentUser").doctorId,
+
+            doctorNo: "4567898765",
             name: data.name.stringValue.toUpperCase(),
             age: data.age.structValue.fields.amount.numberValue,
             sex: data.gender.stringValue,
@@ -236,7 +242,6 @@ export default class DoctorSpeak extends Component {
                 style={styles.stop}
               />
             </TouchableOpacity>
-            
           </View>
         </View>
       </DismissKeyboard>

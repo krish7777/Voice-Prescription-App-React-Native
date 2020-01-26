@@ -26,21 +26,24 @@ class SignIn extends React.Component {
   };
   signIn = async () => {
     const { password, email } = this.state;
-    axios.post('http://10.0.2.2:8000/signin', {
-          email: email,
-          password: password
+    axios
+      .post("http://10.0.2.2:8000/signin", {
+        email: email,
+        password: password
       })
       .then(res => {
-        if(!!res.data.doctorId){
-          this.props.navigation.navigate('DoctorSpeak')
-        }
-        else{
-          this.props.navigation.navigate("UserScreen", {currentUser: res.data});
+        if (!!res.data.doctorId) {
+          this.props.navigation.navigate("DoctorSpeak", {
+            currentUser: res.data
+          });
+        } else {
+          this.props.navigation.navigate("UserScreen", {
+            currentUser: res.data
+          });
         }
       })
-      .catch(err => console.log(err))
-  
-    }
+      .catch(err => console.log(err));
+  };
   render() {
     return (
       <DismissKeyboard>

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Button, ScrollView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Table, TableWrapper, Row, Rows } from "react-native-table-component";
+import axios from "axios";
 
 class DoctorForm extends React.Component {
   constructor(props) {
@@ -22,7 +23,26 @@ class DoctorForm extends React.Component {
   };
 
   sendFinalData = () => {
-    console.log(this.state);
+    const data = {
+      title: "Prescription",
+      doctor: this.props.navigation.getParam("doctor"),
+
+      hospital: this.props.navigation.getParam("hospital"),
+
+      doctorNo: this.props.navigation.getParam("doctorNo"),
+      name: this.state.name,
+      age: this.state.age,
+      sex: this.state.sex,
+      symptoms: this.state.symptoms,
+      diagnosis: this.state.diagnosis,
+      prescription: this.state.prescription,
+      advice: this.state.advice
+    };
+
+    axios
+      .post("http://10.0.2.2:8000/api/finalData", { data: data })
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
   };
 
   render() {
