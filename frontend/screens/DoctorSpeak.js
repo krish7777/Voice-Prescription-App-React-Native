@@ -60,7 +60,6 @@ export default class DoctorSpeak extends Component {
     //   event: "welcome"
     // }
     console.log(this.props.navigation.getParam("currentUser"));
-    console.log("sameed is a loser");
     axios
       .post("http://10.0.2.2:8000/api/df_event_query", {
         event: "welcome"
@@ -85,11 +84,10 @@ export default class DoctorSpeak extends Component {
           const data = res.data.parameters.fields;
 
           let prescription = [];
-          if (data.medicines.listValue.values.length > 0) {
-            data.medicines.listValue.values.forEach(element => {
+          if (data.power.listValue.values.length > 0) {
+            data.power.listValue.values.forEach(element => {
               prescription.push({
                 name: element.stringValue,
-                Strength: "500 mg",
                 Dosage: null
               });
             });

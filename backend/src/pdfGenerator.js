@@ -44,10 +44,10 @@ const createPDF = async function(data) {
 
 	let prescription = data.prescription
 
-	let presString = "<table><tr><th>Name</th><th>Strength</th><th>Dosage</th></tr>"
+	let presString = "<table><tr><th>Name</th><th>Dosage</th></tr>"
 
 	prescription.forEach((med) => {
-		presString += "<tr><td>" + med.name + "</td><td>" + med.Strength + "</td><td>" + med.Dosage + "</td></tr>"
+		presString += "<tr><td>" + med.name + "</td><td>" + med.Dosage + "</td></tr>"
 
 	})
 	presString += "</table>"
@@ -116,8 +116,8 @@ const createPDF = async function(data) {
 // 	sex: "male",
 // 	symptoms: ["Dry Cough for last 3 days ", "fever ", "Running Nose"],
 // 	diagnosis: ["Acute Bronchitis"],
-// 	prescription: [{ name: "Paracetamol", Strength: "500 mg", Dosage: "once a day for 3 days" },
-// 	{ name: "Dolo", Strength: "650 mg", Dosage: "once a day for 3 days" }
+// 	prescription: [{ name: "Paracetamol 500 mg", Dosage: "once a day for 3 days" },
+// 	{ name: "Dolo 650 mg",  Dosage: "once a day for 3 days" }
 // 	],
 // 	advice: ["Drink Warm Water ", "Dont eat grapes"]
 // }

@@ -1,26 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { View, Text } from 'react-native'
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet  } from 'react-native'
 import Axios from 'axios';
 
-export default UserScreen = async props => {
+export default UserScreen = props => {
 
-    const card = item => {
-        console.log(item)
-        return(
-            <Text>CARD!!!</Text>
-        )
-    }
+    // const currentUser = props.navigation.getParam('currentUser')
+    // const prescriptions = currentUser.prescriptionsl
 
-    const currentUser = props.navigation.getParam('currentUser')
-    const prescriptions = currentUser.prescriptionsl
+    // const [presc, setPrecs] = useState([])
 
-    var precs = await (await Axios.post('http://10.0.2.2:8000/api/prescriptions', {userEmail: currentUser.email})).data
+    // useEffect(() => {
+    //     Axios.post('http://10.0.2.2:8000/api/prescriptions', {userEmail: currentUser.email})
+    //     .then(res => {
+    //         setPrecs(prevState => [...prevState, ...res.data])
+    //     })
+    // }, [])
+
+    let cards = <Text>Loading....</Text>
+
+    // if(presc.length>0){
+    //     <Text>Loaded</Text>
+    // }
 
     return(
-        <ScrollView>
-            
-        </ScrollView>  
+        {cards}
     )
 }
+
+const styles = StyleSheet.create({
+    card: {
+        height: 100,
+        backgroundColor: 'red'
+    }
+})
