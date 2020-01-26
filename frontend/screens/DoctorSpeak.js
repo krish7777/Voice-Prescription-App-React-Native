@@ -195,13 +195,7 @@ export default class DoctorSpeak extends Component {
                 style={styles.stop}
               />
             </TouchableOpacity>
-            <TouchableHighlight
-              onPress={() => {
-                this.setModalVisible(true);
-              }}
-            >
-              <Text>Show Modal</Text>
-            </TouchableHighlight>
+            
           </View>
         </View>
       </DismissKeyboard>
