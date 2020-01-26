@@ -23,7 +23,9 @@ export default class DoctorSpeak extends Component {
     this.state = {
       recognized: "",
       started: true,
-      results: ["Nikhil eats cancer"],
+      results: [
+        "Nikhil 17 years male headache, muscle pain and joint pain. He is diagnosed with asthma. I prescribe him to take wikoryl 990 mg and paracetamol 25 mg thrice a day after breakfast and after dinner for 1 year. Avoid oily items."
+      ],
       success: false,
       modalVisible: false
     };
@@ -77,12 +79,51 @@ export default class DoctorSpeak extends Component {
         if (res.data.fulfillmentText === "") {
           console.log("all values got");
           console.log(res.data);
+
+          const data = res.data.parameters.fields;
+
+          let prescription = [];
+          if (data.medicines.listValue.values.length > 0) {
+            data.medicines.listValue.values.forEach(element => {
+              prescription.push({
+                name: element.stringValue,
+                strength: "500 mg",
+                dosage: null
+              });
+            });
+          }
+
+          if (data.frequency.listValue.values.length > 0) {
+            console;
+            data.frequency.listValue.values.forEach((ele, ind) => {
+              prescription[ind].dosage = ele.stringValue + " a day";
+            });
+          }
+          if (data.duration_phrases.listValue.values.length > 0) {
+            data.duration_phrases.listValue.values.forEach((ele, ind) => {
+              prescription[ind].dosage += " " + ele.stringValue;
+            });
+          }
+
+          this.props.navigation.navigate("DoctorForm", {
+            name: data.name.stringValue.toUpperCase(),
+            age: data.age.structValue.fields.amount.numberValue,
+            sex: data.gender.stringValue,
+            symptoms: data.symptoms.listValue.values.map(
+              ele => ele.stringValue
+            ),
+            diagnosis: data.diseases.listValue.values.map(
+              ele => ele.stringValue
+            ),
+            prescription: prescription,
+            advice: data.advice.listValue.values.map(ele => ele.stringValue)
+          });
         } else {
           console.log(res.data.fulfillmentText);
         }
       })
       .then(this.setState({ success: true }))
-      .catch(err => console.log("error coming"));
+      .catch(err => console.log(err));
     // this.props.navigation.navigate("DoctorForm", {
     //   name: "krish",
     //   age: "22",

@@ -83,9 +83,10 @@ class DoctorForm extends React.Component {
           <View style={styles.row}>
             <Text style={styles.label}>AGE:</Text>
             <TextInput
+              numericvalue
               keyboardType="numeric"
               style={styles.input}
-              value={this.state.age}
+              value={String(this.state.age)}
               onChangeText={val => this.onChangeText("age", val)}
             />
           </View>
