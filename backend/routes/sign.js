@@ -42,7 +42,8 @@ module.exports = app => {
                     req.body.email,
                     req.body.password
                 );
-                firebase.createProfileDoctor(user, { displayName: req.body.displayName, doctorId: req.body.doctorId, hospital: req.body.hospital })
+                await firebase.createProfileDoctor(user, { displayName: req.body.displayName, doctorId: req.body.doctorId, hospital: req.body.hospital })
+                firebase.auth.signInWithEmailAndPassword(req.body.email, req.body.password)
                 .then(response => {
                     const userRef = firebase.firestore.doc(`users/${response.user.uid}`)
                     userRef.get().then(doc => {

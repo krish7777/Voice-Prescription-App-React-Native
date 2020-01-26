@@ -26,26 +26,21 @@ class SignIn extends React.Component {
   };
   signIn = async () => {
     const { password, email } = this.state;
-
-    // try {
-    // fetch("https://sih-404.herokuapp.com/signin", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     email: email,
-    //     password: password
-    //   })
-    // }).then(res => console.log(JSON.stringify(res)));
-    this.props.navigation.navigate("DoctorSpeak");
-
-    //   //console.log("user successfully signed up!: ");
-    // } catch (err) {
-    //   console.log("error signing up: ", err);
-    // }
-  };
+    axios.post('http://10.0.2.2:8000/signin', {
+          email: email,
+          password: password
+      })
+      .then(res => {
+        if(!!res.data.doctorId){
+          this.props.navigation.navigate('DoctorSpeak')
+        }
+        else{
+          this.props.navigation.navigate("UserScreen", {currentUser: res.data});
+        }
+      })
+      .catch(err => console.log(err))
+  
+    }
   render() {
     return (
       <DismissKeyboard>

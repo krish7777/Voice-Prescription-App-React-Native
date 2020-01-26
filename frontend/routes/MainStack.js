@@ -2,7 +2,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import DoctorDrawer from "./DoctorDrawer";
 import RegistrationStack from "./RegistrationStack";
-import React from "react";
+import UserDrawer from './UserDrawer'
 
 // import { StackActions, NavigationActions } from "react-navigation";
 // const resetAction = StackActions.reset({
@@ -15,7 +15,8 @@ import React from "react";
 const Mainroot = createStackNavigator(
   {
     Register: { screen: RegistrationStack },
-    Doctor: { screen: DoctorDrawer }
+    Doctor: { screen: DoctorDrawer },
+    User: { screen: UserDrawer }
   },
   {
     headerMode: "none"
