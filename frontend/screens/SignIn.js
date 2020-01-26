@@ -11,7 +11,9 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 
+import axios from "axios";
 import DismissKeyboard from "../shared/DismissKeyboard";
+import Axios from "axios";
 
 class SignIn extends React.Component {
   state = {
@@ -24,18 +26,19 @@ class SignIn extends React.Component {
   };
   signIn = async () => {
     const { password, email } = this.state;
+
     // try {
-    //   fetch("https://sih-404.herokuapp.com/signin", {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //       email: email,
-    //       password: password
-    //     })
-    //   }).then(res => console.log(JSON.stringify(res)));
+    // fetch("https://sih-404.herokuapp.com/signin", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     email: email,
+    //     password: password
+    //   })
+    // }).then(res => console.log(JSON.stringify(res)));
     this.props.navigation.navigate("DoctorSpeak");
 
     //   //console.log("user successfully signed up!: ");

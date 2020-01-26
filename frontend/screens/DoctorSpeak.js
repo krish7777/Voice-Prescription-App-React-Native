@@ -52,18 +52,19 @@ export default class DoctorSpeak extends Component {
     Voice.start("en-US");
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     // ("https://hack-404.herokuapp.com/api/df_event_query", {
     //   event: "welcome"
     // }
+    console.log("sameed is a loser");
     axios
-      .post("http://10.21.131.143:8000/api/df_event_query", { event: "welcome" })
+      .post("http://10.0.2.2:8000/api/df_event_query", {
+        event: "welcome"
+      })
       .then(res => {
         console.log(res.data);
       })
-      .catch(err => console.log("error came"));
-    const res = await axios.post("/api/df_event_query", { event: "welcome" });
-    console.log(res.data);
+      .catch(err => console.log(err));
   }
 
   handleDialogflow = () => {
@@ -71,30 +72,37 @@ export default class DoctorSpeak extends Component {
     console.log("the send text is ", text);
 
     axios
-      .post("/api/df_text_query", { text: text })
-      .then(res => console.log(res.data))
+      .post("http://10.0.2.2:8000/api/df_text_query", { text: text })
+      .then(res => {
+        if (res.data.fulfillmentText === "") {
+          console.log("all values got");
+          console.log(res.data);
+        } else {
+          console.log(res.data.fulfillmentText);
+        }
+      })
       .then(this.setState({ success: true }))
       .catch(err => console.log("error coming"));
-    this.props.navigation.navigate("DoctorForm", {
-      name: "krish",
-      age: "22",
-      sex: "male",
-      symptoms: ["COUGH", "MILD FEVER"],
-      diagnosis: ["CANCER", "HEART ATTACK"],
-      prescription: [
-        {
-          name: "Paracetamol",
-          strength: "500 mg",
-          dosage: "Once a day before food"
-        },
-        {
-          name: "Cefixime",
-          strength: "500 mg",
-          dosage: "Twice a day before food"
-        }
-      ],
-      advice: ["EAT GRAPES", "DRINK WATER"]
-    });
+    // this.props.navigation.navigate("DoctorForm", {
+    //   name: "krish",
+    //   age: "22",
+    //   sex: "male",
+    //   symptoms: ["COUGH", "MILD FEVER"],
+    //   diagnosis: ["CANCER", "HEART ATTACK"],
+    //   prescription: [
+    //     {
+    //       name: "Paracetamol",
+    //       strength: "500 mg",
+    //       dosage: "Once a day before food"
+    //     },
+    //     {
+    //       name: "Cefixime",
+    //       strength: "500 mg",
+    //       dosage: "Twice a day before food"
+    //     }
+    //   ],
+    //   advice: ["EAT GRAPES", "DRINK WATER"]
+    // });
   };
 
   async _startRecognition(e) {
