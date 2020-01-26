@@ -39,7 +39,7 @@ class DoctorForm extends React.Component {
       diagnosis: this.state.diagnosis,
       prescription: this.state.prescription,
       advice: this.state.advice,
-      userEmail: this.state.userEmail,
+      email: this.state.userEmail,
       userPhoneNumber: this.state.userPhoneNumber
     };
 
