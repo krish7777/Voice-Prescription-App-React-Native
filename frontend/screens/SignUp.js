@@ -25,7 +25,7 @@ class SignUp extends React.Component {
   signUp = async () => {
     const { displayName, password, email, doctorId, hospital } = this.state;
 
-    Axios.post('http://10.0.2.2:8000/signup', {
+    Axios.post('https://hack-404-sih.herokuapp.com/signup', {
       displayName,
       password,
       email,

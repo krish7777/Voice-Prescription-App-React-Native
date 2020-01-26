@@ -17,6 +17,14 @@ import { Image as ReactImage } from "react-native";
 
 import Voice from "react-native-voice";
 
+import { Audio } from 'expo-av'
+
+import * as Permissions from 'expo-permissions';
+
+Permissions.AUDIO_RECORDING
+
+
+
 export default class DoctorSpeak extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +46,12 @@ export default class DoctorSpeak extends Component {
   // componentWillUnmount() {
   //   Voice.destroy().then(Voice.removeAllListeners);
   // }
+
+  async componentDidMount() {
+    const { status, expires, permissions } = await Permissions.askAsync(
+      Permissions.AUDIO_RECORDING
+    );
+  }
   onSpeechStart(e) {
     this.setState({
       started: false
@@ -61,7 +75,7 @@ export default class DoctorSpeak extends Component {
     // }
     console.log(this.props.navigation.getParam("currentUser"));
     axios
-      .post("http://10.0.2.2:8000/api/df_event_query", {
+      .post("https://hack-404-sih.herokuapp.com/api/df_event_query", {
         event: "welcome"
       })
       .then(res => {
@@ -75,7 +89,7 @@ export default class DoctorSpeak extends Component {
     console.log("the send text is ", text);
 
     axios
-      .post("http://10.0.2.2:8000/api/df_text_query", { text: text })
+      .post("https://hack-404-sih.herokuapp.com/api/df_text_query", { text: text })
       .then(res => {
         if (res.data.fulfillmentText === "") {
           console.log("all values got");
@@ -163,6 +177,7 @@ export default class DoctorSpeak extends Component {
     console.log("started");
     try {
       await Voice.start("en-US");
+
     } catch (e) {
       console.error(e);
     }
