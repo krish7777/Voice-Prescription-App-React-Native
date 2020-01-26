@@ -44,7 +44,7 @@ class DoctorForm extends React.Component {
     };
 
     axios
-      .post("http://10.0.2.2:8000/api/finalData", { data: JSON.parse(data) })
+      .post("http://10.0.2.2:8000/api/finalData", { data: data })
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
